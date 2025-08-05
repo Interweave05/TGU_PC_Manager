@@ -2,52 +2,50 @@
 
 set -e
 
-# 判断 root 权限
-if [[ $EUID -ne 0 ]]; then
-  echo "❌ 请用 root 权限运行此脚本！"
+# 检查是否安装 sudo
+if ! command -v sudo &> /dev/null; then
+  echo "❌ 本脚本需要 sudo，但未安装 sudo。请先手动安装 sudo。"
   exit 1
 fi
 
 read -p "是否执行 apt update 和 upgrade？(y/n): " do_update
 if [[ "$do_update" =~ ^[Yy]$ ]]; then
   echo "更新系统软件包..."
-  apt update && apt upgrade -y
+  sudo apt update && sudo apt upgrade -y
 fi
 
 # 安装 git
 if ! command -v git &> /dev/null; then
   echo "检测到未安装 git，正在安装..."
-  apt install -y git
+  sudo apt install -y git
 else
   echo "git 已安装"
 fi
 
 # 克隆仓库
 repo_url="https://github.com/Interweave05/TGU_PC_Manager.git"
+echo "将克隆 GitHub 仓库：$repo_url"
 
-echo "将克隆github仓库：$repo_url"
-
-# 目标路径
 target_dir="/opt/tgu_pc_manager"
 
 # 如果目录存在，先备份
 if [ -d "$target_dir" ]; then
   echo "$target_dir 已存在，重命名为 ${target_dir}_backup_$(date +%s)"
-  mv "$target_dir" "${target_dir}_backup_$(date +%s)"
+  sudo mv "$target_dir" "${target_dir}_backup_$(date +%s)"
 fi
 
 echo "克隆仓库到 $target_dir ..."
-git clone "$repo_url" "$target_dir"
+sudo git clone "$repo_url" "$target_dir"
 
 if [ $? -ne 0 ]; then
   echo "❌ 克隆仓库失败，退出安装。"
   exit 1
 fi
 
-# 安装 python3-pip 如果没有
+# 安装 pip3
 if ! command -v pip3 &> /dev/null; then
   echo "检测到未安装 pip3，正在安装..."
-  apt install -y python3-pip
+  sudo apt install -y python3-pip
 else
   echo "pip3 已安装"
 fi
@@ -55,7 +53,7 @@ fi
 # 安装 Python 依赖
 if [ -f "$target_dir/requirements.txt" ]; then
   echo "安装 Python 依赖..."
-  pip3 install -r "$target_dir/requirements.txt"
+  sudo pip3 install -r "$target_dir/requirements.txt"
 else
   echo "❌ 未检测到 requirements.txt，退出安装。"
   exit 1
@@ -67,20 +65,20 @@ service_dst="/etc/systemd/system/tgu_ubuntu_manager.service"
 
 if [ -f "$service_src" ]; then
   echo "复制 systemd 服务文件到 $service_dst ..."
-  cp "$service_src" "$service_dst"
+  sudo cp "$service_src" "$service_dst"
 else
   echo "未找到 $service_src，无法配置 systemd 服务。"
   exit 1
 fi
 
 echo "重新加载 systemd 配置..."
-systemctl daemon-reload
+sudo systemctl daemon-reload
 
 echo "启用并启动服务..."
-systemctl enable tgu_ubuntu_manager.service
-systemctl start tgu_ubuntu_manager.service
+sudo systemctl enable tgu_ubuntu_manager.service
+sudo systemctl start tgu_ubuntu_manager.service
 
 echo "服务状态："
-systemctl status tgu_ubuntu_manager.service --no-pager
+sudo systemctl status tgu_ubuntu_manager.service --no-pager
 
-echo "安装完成！"
+echo "✅ 安装完成！"
