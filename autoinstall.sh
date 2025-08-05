@@ -23,7 +23,7 @@ else
 fi
 
 # 克隆仓库
-repo_url="https://github.com/Interweave05/TGU_PC_Manager.git"
+repo_url="https://gh-proxy.com/https://github.com/Interweave05/TGU_PC_Manager.git"
 
 echo "将克隆github仓库：$repo_url"
 
