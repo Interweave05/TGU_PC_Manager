@@ -44,6 +44,13 @@ wget https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/ma
 sudo bash ./autoinstall.sh
 ```
 
+或者使用代理
+
+```bash
+wget https://gh-proxy.com/https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/main/autoinstall.sh 
+
+sudo bash ./autoinstall.sh
+```
 ---
 
 #### 二、手动安装
@@ -55,6 +62,13 @@ sudo bash ./autoinstall.sh
 
 ```bash
 wget https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/main/autouninstall.sh 
+
+sudo bash ./autouninstall.sh
+```
+或者使用代理
+
+```bash
+wget https://gh-proxy.com/https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/main/autouninstall.sh 
 
 sudo bash ./autouninstall.sh
 ```
