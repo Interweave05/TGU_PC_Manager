@@ -11,10 +11,22 @@
     <label class="form-label">服务名称（不带后缀 .service）</label>
     <input type="text" name="name" class="form-control" placeholder="myapp" required>
   </div>
+
   <div class="mb-3">
     <label class="form-label">启动命令</label>
     <input type="text" name="command" class="form-control" placeholder="/home/tgu/myscript.sh" required>
   </div>
+
+  <div class="mb-3">
+    <label class="form-label">运行路径（可选 WorkingDirectory）</label>
+    <input type="text" name="workdir" class="form-control" placeholder="/home/tgu/myproject">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">环境变量（Environment，格式一行一条，例如：<code>HOME=/home/tgu</code>）</label>
+    <textarea name="environment" class="form-control" rows="4" placeholder="HOME=/home/tgu\nPATH=/usr/local/bin:/usr/bin:/bin"></textarea>
+  </div>
+
   <button type="submit" class="btn btn-primary">创建并启用服务</button>
 </form>
 
