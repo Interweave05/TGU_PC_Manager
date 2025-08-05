@@ -4,7 +4,7 @@ set -e
 
 # 判断 root 权限
 if [[ $EUID -ne 0 ]]; then
-  echo "请用 root 权限运行此脚本！"
+  echo "❌ 请用 root 权限运行此脚本！"
   exit 1
 fi
 
@@ -23,11 +23,9 @@ else
 fi
 
 # 克隆仓库
-read -p "请输入你的 git 仓库地址: " repo_url
-if [ -z "$repo_url" ]; then
-  echo "仓库地址不能为空，退出。"
-  exit 1
-fi
+repo_url="https://github.com/Interweave05/TGU_PC_Manager.git"
+
+echo "将克隆github仓库：$repo_url"
 
 # 目标路径
 target_dir="/opt/tgu_pc_manager"
@@ -40,6 +38,11 @@ fi
 
 echo "克隆仓库到 $target_dir ..."
 git clone "$repo_url" "$target_dir"
+
+if [ $? -ne 0 ]; then
+  echo "❌ 克隆仓库失败，退出安装。"
+  exit 1
+fi
 
 # 安装 python3-pip 如果没有
 if ! command -v pip3 &> /dev/null; then
@@ -54,7 +57,8 @@ if [ -f "$target_dir/requirements.txt" ]; then
   echo "安装 Python 依赖..."
   pip3 install -r "$target_dir/requirements.txt"
 else
-  echo "未检测到 requirements.txt，跳过依赖安装。"
+  echo "❌ 未检测到 requirements.txt，退出安装。"
+  exit 1
 fi
 
 # 复制 systemd 服务文件
