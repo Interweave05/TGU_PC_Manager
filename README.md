@@ -39,7 +39,9 @@
 #### 一、使用一键安装脚本
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/main/autoinstall.sh | bash
+wget https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/main/autoinstall.sh 
+
+sudo bash ./autoinstall.sh
 ```
 
 ---
