@@ -48,3 +48,13 @@ sudo bash ./autoinstall.sh
 
 #### 二、手动安装
 ### TODO
+
+---
+
+## 卸载
+
+```bash
+wget https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/main/autouninstall.sh 
+
+sudo bash ./autouninstall.sh
+```
