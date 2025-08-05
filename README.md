@@ -44,7 +44,7 @@ wget https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/ma
 sudo bash ./autoinstall.sh
 ```
 
-或者使用代理
+或者使用代理（使用下面的方法疑似会出现sh被篡改的问题）
 
 ```bash
 wget https://gh-proxy.com/https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/main/autoinstall.sh 
@@ -65,7 +65,7 @@ wget https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/ma
 
 sudo bash ./autouninstall.sh
 ```
-或者使用代理
+或者使用代理（使用下面的方法疑似会出现sh被篡改的问题）
 
 ```bash
 wget https://gh-proxy.com/https://raw.githubusercontent.com/Interweave05/TGU_PC_Manager/refs/heads/main/autouninstall.sh 
