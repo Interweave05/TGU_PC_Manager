@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">🔄 systemd 开机自启管理</h2>
+
+{% if message %}
+<div class="alert alert-info">{{ message }}</div>
+{% endif %}
+
+<form method="post" class="mb-4">
+  <div class="mb-3">
+    <label class="form-label">服务名称（不带后缀 .service）</label>
+    <input type="text" name="name" class="form-control" placeholder="myapp" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">启动命令</label>
+    <input type="text" name="command" class="form-control" placeholder="/home/tgu/myscript.sh" required>
+  </div>
+  <button type="submit" class="btn btn-primary">创建并启用服务</button>
+</form>
+
+<h4>📝 已注册服务：</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>服务名称</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for svc in files %}
+    <tr>
+      <td>{{ svc.name }}</td>
+      <td>
+        {% if svc.status == 'active' %}
+          <span class="badge bg-success">运行中</span>
+        {% elif svc.status == 'inactive' %}
+          <span class="badge bg-secondary">已停止</span>
+        {% elif svc.status == 'failed' %}
+          <span class="badge bg-danger">失败</span>
+        {% else %}
+          <span class="badge bg-warning text-dark">未知</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if svc.status != 'active' %}
+          <a href="{{ url_for('autostart.enable_service', name=svc.name) }}" class="btn btn-sm btn-success">启用</a>
+        {% endif %}
+        <a href="{{ url_for('autostart.stop_service', name=svc.name) }}" class="btn btn-sm btn-warning">停止</a>
+        <a href="{{ url_for('autostart.disable_service', name=svc.name) }}" class="btn btn-sm btn-danger">禁用</a>
+        <a href="{{ url_for('autostart.delete_service', name=svc.name) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('确定删除服务 {{ svc.name }} 吗？');">删除</a>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3">暂无服务</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
