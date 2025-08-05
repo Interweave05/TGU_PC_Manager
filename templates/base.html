@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>TGU_Ubuntu_管理</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+  <style>
+    footer {
+      font-size: 0.8rem;
+      color: #aaa;
+      text-align: center;
+      margin-top: 2rem;
+      padding: 0.5rem 0;
+      border-top: 1px solid #ddd;
+    }
+    body {
+    font-family: 'Noto Sans SC', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('index') }}">TGU_Ubuntu_管理</a>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    {% block content %}{% endblock %}
+  </div>
+
+  <footer id="sysinfo">
+    系统信息加载中...
+  </footer>
+
+  <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script>
+    async function updateSysInfo() {
+      try {
+        const res = await fetch("/api/sysinfo");
+        const data = await res.json();
+
+        const cpu = `CPU: ${data.cpu}%`;
+        const temp = data.cpu_temp !== null ? ` 温度: ${data.cpu_temp}℃` : '';
+        const mem = `内存: ${data.memory.used}/${data.memory.total} MB`;
+        const disk = `磁盘: ${data.disk.used}/${data.disk.total} GB`;
+
+        document.getElementById("sysinfo").innerText = `${cpu}${temp} | ${mem} | ${disk}`;
+      } catch (e) {
+        document.getElementById("sysinfo").innerText = "⚠️ 获取系统信息失败";
+      }
+    }
+
+    updateSysInfo();
+    setInterval(updateSysInfo, 5000); // 每 5 秒刷新
+  </script>
+</body>
+</html>

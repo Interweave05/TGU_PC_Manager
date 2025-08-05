@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4 text-center">🖥️ Ubuntu 管理面板</h1>
+<div class="row g-4">
+
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">🔄 开机自启动管理</h5>
+        <p class="card-text">添加或移除用户自启动程序</p>
+        <a href="{{ url_for('autostart.manage_autostart') }}" class="btn btn-primary">进入</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">💾 磁盘容量管理</h5>
+        <p class="card-text">管理系统磁盘容量</p>
+        <a href="{{ url_for('diskmanager.disk_overview') }}" class="btn btn-primary">进入</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
